@@ -1,3 +1,4 @@
+
 class Board:
     def __init__(self) -> None:
         self.files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -135,7 +136,7 @@ class Bishop(Queen):
 
 class Knight(Board):
 
-    def get_top_right_scopes(self, file: str, rank: int, file_skip: int, rank_skip: int):
+    def get_top_right_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []
         next_file = None
         next_rank = None
@@ -182,7 +183,7 @@ class Knight(Board):
             
         return scopes
 
-    def get_top_left_scopes(self, file: str, rank: int, file_skip: int, rank_skip: int):
+    def get_top_left_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []
         next_file = None
         next_rank = None
@@ -229,7 +230,7 @@ class Knight(Board):
             
         return scopes
 
-    def get_bottom_right_scopes(self, file: str, rank: int, file_skip: int, rank_skip: int):
+    def get_bottom_right_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []
         next_file = None
         next_rank = None
@@ -275,7 +276,7 @@ class Knight(Board):
      
         return scopes
 
-    def get_bottom_left_scopes(self, file: str, rank: int, file_skip: int, rank_skip: int):
+    def get_bottom_left_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []
         next_file = None
         next_rank = None
@@ -323,28 +324,56 @@ class Knight(Board):
         return scopes
 
     def get_scopes(self, file: str, rank: int):
-        scopes = []
+        scope = []
 
-        # scopes = scopes + self.get_top_right_scopes(file, rank, file_skip=2, rank_skip=1)
-        # scopes = scopes + self.get_top_right_scopes(file, rank, file_skip=1, rank_skip=2)
-        # scopes = scopes + self.get_top_left_scopes(file, rank, file_skip=2, rank_skip=1)
-        # scopes = scopes + self.get_top_left_scopes(file, rank, file_skip=1, rank_skip=2)
-        # scopes = scopes + self.get_bottom_right_scopes(file, rank, file_skip=2, rank_skip=1)
-        # scopes = scopes + self.get_bottom_right_scopes(file, rank, file_skip=1, rank_skip=2)
-        scopes = scopes + self.get_bottom_left_scopes(file, rank, file_skip=2, rank_skip=1)
-        scopes = scopes + self.get_bottom_left_scopes(file, rank, file_skip=1, rank_skip=2)
+        scope = scope + self.get_top_right_scope(file, rank, file_skip=2, rank_skip=1)
+        scope = scope + self.get_top_right_scope(file, rank, file_skip=1, rank_skip=2)
+        scope = scope + self.get_top_left_scope(file, rank, file_skip=2, rank_skip=1)
+        scope = scope + self.get_top_left_scope(file, rank, file_skip=1, rank_skip=2)
+        scope = scope + self.get_bottom_right_scope(file, rank, file_skip=2, rank_skip=1)
+        scope = scope + self.get_bottom_right_scope(file, rank, file_skip=1, rank_skip=2)
+        scope = scope + self.get_bottom_left_scope(file, rank, file_skip=2, rank_skip=1)
+        scope = scope + self.get_bottom_left_scope(file, rank, file_skip=1, rank_skip=2)
 
         
-        return scopes
+        return scope
+
+
+
+class Rook(Queen):
+    def get_scopes(self, file: str, rank: int):
+        horizontal = self.get_horizontal_scope(file, rank)
+        vertical = self.get_vertical_scope(file, rank)        
+        scopes = list(horizontal + (vertical))
+        return list(dict.fromkeys(scopes))
+
+
+class Pawn(Board):
+    def get_scopes(self, file: str, rank: int, can_capture=False, en_pessant=False):
+        scopes = []
+        try:
+            next_rank = self.ranks[self.ranks.index(rank) + 1]
+            scopes.append(f'{file}{next_rank}')
+        except IndexError:
+            pass
+        return scopes #empty = promoting
+
+
+class King(Queen):
+    def get_scopes(self, file: str, rank: int):
+        pass
+
+
+
     
 
 files = 'abcdefgh'
 ranks = '12345678'
 
-knight = Knight()
+piece = Pawn()
 for f in files:
     for r in ranks:
-        print(f'{f}{r}-->{knight.get_scopes(f, int(r))}')
+        print(f'{f}{r}-->{piece.get_scopes(f, int(r))}')
 
 # f = 'h'
 # r = 8 
