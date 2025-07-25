@@ -2,9 +2,9 @@ from chess import Board
 
 
 class King(Board):
-    def __init__(self, name: str, color: int) -> None:
+    def __init__(self, color: int) -> None:
         super().__init__()
-        self.name = name
+        self.name = 'K'
         self.color = color
         self.ID = f'{self.name}_{self.color}'
 

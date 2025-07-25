@@ -1,9 +1,9 @@
 from chess import Board
 
 class Bishop(Board):
-    def __init__(self, name: str, color: int, OID: int) -> None:
+    def __init__(self, color: int, OID: int) -> None:
         super().__init__()
-        self.name = name
+        self.name = 'B'
         self.color = color
         self.OID = OID
         self.ID = f'{self.name}_{self.color}_{self.OID}'
@@ -88,8 +88,3 @@ class Bishop(Board):
         bottom_right = self.get_bottom_right_scope(file, rank)
         scopes = list(top_right + top_left + bottom_left + bottom_right)
         return list(dict.fromkeys(scopes))
-    
-    def move(self, file: str, rank: int):
-        sqr_name = f'{file}{rank}'
-        sqr_info = self.squares[sqr_name]
-        return sqr_info

@@ -1,9 +1,9 @@
 from chess import Board
 
 class Pawn(Board):
-    def __init__(self, name: str, color: int, OID: int) -> None:
+    def __init__(self, color: int, OID: int) -> None:
         super().__init__()
-        self.name = name
+        self.name = 'P'
         self.color = color
         self.OID = OID
         self.ID = f'{self.name}_{self.color}_{self.OID}'

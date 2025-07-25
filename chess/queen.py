@@ -2,13 +2,9 @@ from chess import Board
 
 class Queen(Board):
 
-    def __init__(self, name: str, color: int) -> None:
-        """
-        W--> for white
-        B --> for black
-        """
+    def __init__(self, color: int) -> None:
         super().__init__()
-        self.name = name
+        self.name = 'Q'
         self.color = color
         self.ID = f'{self.name}_{self.color}'
 
