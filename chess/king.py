@@ -8,6 +8,8 @@ class King(Board):
         self.color = color
         self.ID = f'{self.name}_{self.color}'
 
+        self.position = self.get_king_position(self.color)
+
     def get_right_scope(self, file: str, rank: int):
         if self.is_on_right_end(file, rank):
             return []

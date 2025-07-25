@@ -9,6 +9,8 @@ class Knight(Board):
         self.OID = OID
         self.ID = f'{self.name}_{self.color}_{self.OID}'
 
+        self.position = self.get_knight_position(self.color, self.OID)
+
     def get_top_right_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []
         next_file = None

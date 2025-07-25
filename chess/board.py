@@ -9,46 +9,10 @@ class Board:
         self.left_end = [f'a{rank}' for rank in self.ranks]
 
         self.edges = self.top_end + self.bottom_end + self.right_end + self.left_end
+        self.set_up_pieces()
 
-        self.queen1_pos = None
-        self.queen2_pos = None
-
-        self.bishop11_pos = None
-        self.bishop12_pos = None
-        self.bishop21_pos = None
-        self.bishop22_pos = None
-
-        self.rook11_pos = None
-        self.rook12_pos = None
-        self.rook21_pos = None
-        self.rook22_pos = None
-
-        self.king1_pos = None
-        self.king2_pos = None
-
-        self.knight11_pos = None
-        self.knight12_pos = None
-        self.knight21_pos = None
-        self.knight22_pos = None
-
-        self.pawn11_pos = None
-        self.pawn12_pos = None
-        self.pawn13_pos = None
-        self.pawn14_pos = None
-        self.pawn15_pos = None
-        self.pawn16_pos = None
-        self.pawn17_pos = None
-        self.pawn18_pos = None
-
-        self.pawn21_pos = None
-        self.pawn22_pos = None
-        self.pawn23_pos = None
-        self.pawn24_pos = None
-        self.pawn25_pos = None
-        self.pawn26_pos = None
-        self.pawn27_pos = None
-        self.pawn28_pos = None
-
+    def remove_pieces(self):
+        pass
     
     def set_up_pieces(self):
         self.queen1_pos = 'd1'
@@ -59,8 +23,8 @@ class Board:
         self.bishop21_pos = 'c8'
         self.bishop22_pos = 'f8'
 
-        self.rook11_pos = 'h1'
-        self.rook12_pos = 'a1'
+        self.rook11_pos = 'a1'
+        self.rook12_pos = 'h1'
         self.rook21_pos = 'a8'
         self.rook22_pos = 'h8'
 
@@ -106,21 +70,74 @@ class Board:
             return self.king1_pos
         return self.king2_pos
 
-    def get_rook_position(self, color: int):
+    def get_rook_position(self, color: int, OID: int):
         if color == 1:
-            return self.rook1_pos
-        return self.rook2_pos
+            if OID == 1:
+                return self.rook11_pos
+            return self.rook12_pos
+        
+        if OID == 1:
+            return self.rook21_pos
+        return self.rook22_pos
 
-    def get_bishop_position(self, color: int):
+    def get_bishop_position(self, color: int, OID: int):
         if color == 1:
-            return self.bishop1_pos
-        return self.bishop2_pos
+            if OID == 1:
+                return self.bishop11_pos
+            return self.bishop12_pos
+        
+        if OID == 1:
+            return self.bishop21_pos
+        return self.bishop22_pos
+        
 
-    def get_knight_position(self, color: int):
+    def get_knight_position(self, color: int, OID: int):
         if color == 1:
-            return self.knight1_pos
-        return self.knight2_pos
+            if OID == 1:
+                return self.knight11_pos
+            return self.knight12_pos
+        
+        if OID == 1:
+            return self.knight21_pos
+        return self.knight22_pos
     
+    def get_pawn_position(self, color: int, OID: int):
+        if color == 1:
+            if OID == 1:
+                return self.pawn11_pos
+            elif OID == 2:
+                return self.pawn12_pos
+            elif OID == 3:
+                return self.pawn13_pos
+            elif OID == 4:
+                return self.pawn14_pos
+            elif OID == 5:
+                return self.pawn15_pos       
+            elif OID == 6:
+                return self.pawn16_pos
+            elif OID == 7:
+                return self.pawn17_pos
+            elif OID == 8:
+                return self.pawn18_pos
+
+        if OID == 1:
+            return self.pawn21_pos
+        elif OID == 2:
+            return self.pawn22_pos
+        elif OID == 3:
+            return self.pawn23_pos
+        elif OID == 4:
+            return self.pawn24_pos
+        elif OID == 5:
+            return self.pawn25_pos       
+        elif OID == 6:
+            return self.pawn26_pos
+        elif OID == 7:
+            return self.pawn27_pos
+        elif OID == 8:
+            return self.pawn28_pos
+            
+
     def is_on_edge(self, file: str, rank: int):
         return f'{file}{rank}' in self.edges
 

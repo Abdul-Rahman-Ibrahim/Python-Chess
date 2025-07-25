@@ -11,6 +11,8 @@ class Queen(Board):
         self.name = name
         self.color = color
         self.ID = f'{self.name}_{self.color}'
+
+        self.position = self.get_queen_position(self.color)
         
 
     def get_horizontal_scope(self, file: str, rank: int):
