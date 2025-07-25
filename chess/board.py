@@ -8,11 +8,19 @@ class Board:
         self.right_end = [f'h{rank}' for rank in self.ranks]
         self.left_end = [f'a{rank}' for rank in self.ranks]
 
+        self.squares = {}
+        for file in self.files:
+            for rank in self.ranks:
+                self.squares[f'{file}{rank}'] = None
+
         self.edges = self.top_end + self.bottom_end + self.right_end + self.left_end
         self.set_up_pieces()
 
     def remove_pieces(self):
         pass
+
+    def update_square(self, ID: str, square):
+        self.squares[square] = ID
     
     def set_up_pieces(self):
         self.queen1_pos = 'd1'

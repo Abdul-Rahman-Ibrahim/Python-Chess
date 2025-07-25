@@ -11,6 +11,9 @@ class Knight(Board):
 
         self.position = self.get_knight_position(self.color, self.OID)
 
+    def get_id(self):
+        return self.ID
+
     def get_top_right_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []
         next_file = None

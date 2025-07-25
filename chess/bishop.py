@@ -10,6 +10,9 @@ class Bishop(Board):
 
         self.position = self.get_bishop_position(self.color, self.OID)
     
+    def get_id(self):
+        return self.ID
+
     def get_top_right_scope(self, file: str, rank: int):
         if f'{file}{rank}' in self.top_end or f'{file}{rank}' in self.right_end:
             return []
@@ -85,3 +88,8 @@ class Bishop(Board):
         bottom_right = self.get_bottom_right_scope(file, rank)
         scopes = list(top_right + top_left + bottom_left + bottom_right)
         return list(dict.fromkeys(scopes))
+    
+    def move(self, file: str, rank: int):
+        sqr_name = f'{file}{rank}'
+        sqr_info = self.squares[sqr_name]
+        return sqr_info

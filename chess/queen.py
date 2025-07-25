@@ -13,7 +13,9 @@ class Queen(Board):
         self.ID = f'{self.name}_{self.color}'
 
         self.position = self.get_queen_position(self.color)
-        
+    
+    def get_id(self):
+        return self.ID
 
     def get_horizontal_scope(self, file: str, rank: int):
         scopes = []
@@ -108,3 +110,6 @@ class Queen(Board):
         bottom_right = self.get_bottom_right_scope(file, rank)
         scopes = list(horizontal + vertical + top_right + top_left + bottom_left + bottom_right)
         return list(dict.fromkeys(scopes))
+    
+    def move(self, file: str, rank: int):
+        pass

@@ -10,6 +10,9 @@ class King(Board):
 
         self.position = self.get_king_position(self.color)
 
+    def get_id(self):
+        return self.ID
+
     def get_right_scope(self, file: str, rank: int):
         if self.is_on_right_end(file, rank):
             return []

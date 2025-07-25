@@ -10,6 +10,9 @@ class Rook(Board):
 
         self.position = self.get_rook_position(self.color, self.OID)
 
+    def get_id(self):
+        return self.ID
+
     def get_horizontal_scope(self, file: str, rank: int):
         scopes = []
         for rnk in self.ranks:

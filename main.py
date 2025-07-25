@@ -13,5 +13,14 @@ from chess import *
 # r = '1'
 # piece = Queen('queen', 1)
 board = Board()
-piece = Rook('P', 1, 2)
-print(piece.position)
+bishop_12 = Bishop('B', 1, 2)
+id = bishop_12.get_id()
+
+b_pos = bishop_12.position
+sqr = board.squares[b_pos]
+print(sqr)
+board.update_square(id, b_pos)
+sqr = board.squares[b_pos]
+print(sqr)
+sqr_info = bishop_12.move('b', 2)
+print(sqr_info)

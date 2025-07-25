@@ -10,6 +10,9 @@ class Pawn(Board):
 
         self.position = self.get_pawn_position(self.color, self.OID)
 
+    def get_id(self):
+        return self.ID
+
     def get_scopes(self, file: str, rank: int, can_capture=False, en_pessant=False):
         scopes = []
         try:
