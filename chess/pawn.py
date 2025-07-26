@@ -16,7 +16,10 @@ class Pawn(Board):
     def get_scopes(self, file: str, rank: int, can_capture=False, en_pessant=False):
         scopes = []
         try:
-            next_rank = self.ranks[self.ranks.index(rank) + 1]
+            if self.color == 1:
+                next_rank = self.ranks[self.ranks.index(rank) + 1]
+            elif self.color == 2:
+                next_rank = self.ranks[self.ranks.index(rank) - 1]
             scopes.append(f'{file}{next_rank}')
         except IndexError:
             pass

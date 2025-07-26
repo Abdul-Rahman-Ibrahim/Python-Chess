@@ -18,8 +18,7 @@ class Board:
         self.set_up_pieces()
     
     def move(self, Piece: type, file: str, rank: int):
-        current_position = Piece.position
-        current_file, current_rank = self.get_file_rank(current_position)
+        current_file, current_rank = self.get_current_position(Piece)
         scope = Piece.get_scopes(current_file, current_rank)
         if self.is_move_in_scope(scope, file, rank):
             return 'Move may be possible', scope
@@ -31,11 +30,16 @@ class Board:
         return file, rank
     
     def get_current_position(self, Piece: type):
-        id = Piece.ID
-        for square, piece_id in self.squares.items():
-            if id == piece_id:
-                return self.get_file_rank(square)
+        square = Piece.position
+        if square:
+            return self.get_file_rank(square)
         return None, None
+        # id = Piece.ID
+        
+        # for square, piece_id in self.squares.items():
+        #     if id == piece_id:
+        #         return self.get_file_rank(square)
+        # return None, None
     
     def is_move_in_scope(self, scope: list, file: str, rank: int):
         return f'{file}{rank}' in scope

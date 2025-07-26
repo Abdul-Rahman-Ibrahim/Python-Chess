@@ -13,9 +13,9 @@ from chess import *
 board = Board()
 board.set_up_pieces()
 
-piece = Pawn(2, 8)
+piece = Pawn(2, 6)
 file, rank = board.get_current_position(piece)
 print(piece.ID)
 print(f'{file}{rank}')
-print(board.move(piece, 'f', 2))
+print(board.move(piece, 'f', 6))
 
