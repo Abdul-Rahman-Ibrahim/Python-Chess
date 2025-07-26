@@ -23,8 +23,8 @@ class Board:
         if self.is_move_in_scope(scope, file, rank):
             #check if opponent piece not present
             self.update_position(Piece, file, rank, current_file, current_rank)
-            return 'Move may be possible', scope
-        return 'Move is not possible', scope
+            return True
+        return False
     
     def update_position(self, Piece: type, file: str, rank: int, current_file: str, current_rank: int):
         Piece.position = f'{file}{rank}'
