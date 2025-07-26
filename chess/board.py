@@ -21,10 +21,15 @@ class Board:
         current_file, current_rank = self.get_current_position(Piece)
         scope = Piece.get_scopes(current_file, current_rank)
         if self.is_move_in_scope(scope, file, rank):
-            #check if opponent piece not present
-            self.update_position(Piece, file, rank, current_file, current_rank)
-            return True
-        return False
+            #check if another piece is on the square
+            square_status = self.get_square_info(file, rank)
+            if not square_status:
+                self.update_position(Piece, file, rank, current_file, current_rank)
+                return True, square_status
+            return False, square_status
+
+        return False, 'Not scope'
+
     
     def update_position(self, Piece: type, file: str, rank: int, current_file: str, current_rank: int):
         Piece.position = f'{file}{rank}'
