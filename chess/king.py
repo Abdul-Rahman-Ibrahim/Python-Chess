@@ -13,6 +13,25 @@ class King(Board):
     def get_id(self):
         return self.ID
 
+    def get_direction(self, file:str, rank:int, next_file:str, next_rank:int):
+        
+        if f'{next_file}{next_rank}' in self.get_top_right_scope(file, rank):
+            return 'TR'
+        elif f'{next_file}{next_rank}' in self.get_left_scope(file, rank):
+            return 'LH'
+        elif f'{next_file}{next_rank}' in self.get_right_scope(file, rank):
+            return 'RH'
+        elif f'{next_file}{next_rank}' in self.get_top_scope(file, rank):
+            return 'TV'
+        elif f'{next_file}{next_rank}' in self.get_bottom_scope(file, rank):
+            return 'BV'        
+        elif f'{next_file}{next_rank}' in self.get_top_left_scope(file, rank):
+            return 'TL'
+        elif f'{next_file}{next_rank}' in self.get_bottom_right_scope(file, rank):
+            return 'BR'
+        elif f'{next_file}{next_rank}' in self.get_bottom_left_scope(file, rank):
+            return 'BL'   
+
     def get_right_scope(self, file: str, rank: int):
         if self.is_on_right_end(file, rank):
             return []

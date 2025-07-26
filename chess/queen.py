@@ -12,22 +12,101 @@ class Queen(Board):
     
     def get_id(self):
         return self.ID
-
-    def get_horizontal_scope(self, file: str, rank: int):
-        scopes = []
-        for rnk in self.ranks:
-            if rnk == rank:
-                continue
-            scopes.append(f'{file}{rnk}')
-        return scopes
     
-    def get_vertical_scope(self, file: str, rank: int):
+    def get_direction(self, file:str, rank:int, next_file:str, next_rank:int):
+        
+        if f'{next_file}{next_rank}' in self.get_right_horizontal_scope(file, rank):
+            return 'RH'
+        elif f'{next_file}{next_rank}' in self.get_left_horizontal_scope(file, rank):
+            return 'LH'
+        elif f'{next_file}{next_rank}' in self.get_top_vertical_scope(file, rank):
+            return 'TV'
+        elif f'{next_file}{next_rank}' in self.get_bottom_vertical_scope(file, rank):
+            return 'BV'
+        elif f'{next_file}{next_rank}' in self.get_top_right_scope(file, rank):
+            return 'TR'
+        elif f'{next_file}{next_rank}' in self.get_top_left_scope(file, rank):
+            return 'TL'
+        elif f'{next_file}{next_rank}' in self.get_bottom_right_scope(file, rank):
+            return 'BR'
+        elif f'{next_file}{next_rank}' in self.get_bottom_left_scope(file, rank):
+            return 'BL'
+    
+    def get_right_horizontal_scope(self, file: str, rank: int):
+        if f'{file}{rank}' in self.right_end:
+            return []
         scopes = []
-        for fl in self.files:
-            if fl == file:
-                continue
-            scopes.append(f'{fl}{rank}')
+        current_pos = f'{file}{rank}'
+        next_file = file
+        while current_pos not in self.right_end: 
+            try:
+                next_file = self.files[self.files.index(next_file) + 1]
+                current_pos = f'{next_file}{rank}'
+                scopes.append(f'{current_pos}')
+            except IndexError:
+                break
         return scopes
+
+    def get_left_horizontal_scope(self, file: str, rank: int):
+        if f'{file}{rank}' in self.left_end:
+            return []
+        scopes = []
+        current_pos = f'{file}{rank}'
+        next_file = file
+        while current_pos not in self.left_end: 
+            try:
+                next_file = self.files[self.files.index(next_file) - 1]
+                current_pos = f'{next_file}{rank}'
+                scopes.append(f'{current_pos}')
+            except IndexError:
+                break
+        return scopes
+
+    def get_top_vertical_scope(self, file: str, rank: int):
+        if f'{file}{rank}' in self.top_end:
+            return []
+        scopes = []
+        current_pos = f'{file}{rank}'
+        next_rank = rank
+        while current_pos not in self.top_end: 
+            try:
+                next_rank = self.ranks[self.ranks.index(next_rank) + 1]
+                current_pos = f'{file}{next_rank}'
+                scopes.append(f'{current_pos}')
+            except IndexError:
+                break
+        return scopes
+
+    def get_bottom_vertical_scope(self, file: str, rank: int):
+        if f'{file}{rank}' in self.bottom_end:
+            return []
+        scopes = []
+        current_pos = f'{file}{rank}'
+        next_rank = rank
+        while current_pos not in self.bottom_end: 
+            try:
+                next_rank = self.ranks[self.ranks.index(next_rank) - 1]
+                current_pos = f'{file}{next_rank}'
+                scopes.append(f'{current_pos}')
+            except IndexError:
+                break
+        return scopes
+
+    # def get_horizontal_scope(self, file: str, rank: int):
+    #     scopes = []
+    #     for rnk in self.ranks:
+    #         if rnk == rank:
+    #             continue
+    #         scopes.append(f'{file}{rnk}')
+    #     return scopes
+    
+    # def get_vertical_scope(self, file: str, rank: int):
+    #     scopes = []
+    #     for fl in self.files:
+    #         if fl == file:
+    #             continue
+    #         scopes.append(f'{fl}{rank}')
+    #     return scopes
     
     def get_top_left_scope(self, file: str, rank: int):
         if f'{file}{rank}' in self.top_end or f'{file}{rank}' in self.left_end:
@@ -98,14 +177,17 @@ class Queen(Board):
         return scopes
     
     def get_scopes(self, file: str, rank: int):
-        horizontal = self.get_horizontal_scope(file, rank)
-        vertical = self.get_vertical_scope(file, rank)
+        right_horizontal = self.get_right_horizontal_scope(file, rank)
+        left_horizontal = self.get_left_horizontal_scope(file, rank)
+        top_vertical = self.get_top_vertical_scope(file, rank)
+        bottom_vertical = self.get_bottom_vertical_scope(file, rank)
         top_right = self.get_top_right_scope(file, rank)
         top_left = self.get_top_left_scope(file, rank)
         bottom_left = self.get_bottom_left_scope(file, rank)
         bottom_right = self.get_bottom_right_scope(file, rank)
-        scopes = list(horizontal + vertical + top_right + top_left + bottom_left + bottom_right)
-        return list(dict.fromkeys(scopes))
+
+        scopes = list(right_horizontal + top_vertical + left_horizontal + bottom_vertical+ top_right + top_left + bottom_left + bottom_right)
+        return scopes
     
     def move(self, file: str, rank: int):
         pass

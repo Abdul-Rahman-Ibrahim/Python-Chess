@@ -148,10 +148,20 @@ def make_a_move(board, piece, f, r):
     print(f'Status of {f}{r} is {board.get_square_info(f, r)}')
     print('------------------------------------------------\n')
 
+
+# files = 'abcdefgh'
+# ranks = '12345678'
+# piece = Rook(1,1)
+# for f in files:
+#     for r in ranks:
+#         print(piece.get_scopes(f, int(r)))
+
+
 # Play
-make_a_move(board, pawn_1_5, 'e', 4)
+make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 4)
 
 make_a_move(board, king_2, 'e', 7)
+
 

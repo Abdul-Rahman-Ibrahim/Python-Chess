@@ -19,16 +19,22 @@ class Board:
         current_file, current_rank = self.get_current_position(Piece)
         scope = Piece.get_scopes(current_file, current_rank)
         if self.is_move_in_scope(scope, file, rank):
-
+            dir = Piece.get_direction(current_file, current_rank, file, rank)
             square_object = self.get_square_info(file, rank)
             if not square_object: #check whether no piece is on the square to move
+                print(dir)
                 self.update_position(Piece, file, rank, current_file, current_rank)
                 return True, square_object
             
             #check which piece is on the square to move
             if square_object.color != Piece.color:
+                print(dir)
                 self.update_position(Piece, file, rank, current_file, current_rank)
                 return True, f'Can capture {square_object.ID}'
+            
+            # check whether there is no other piece between current position and next position
+            # get the direction of next move
+
             
             return False, f'Cannot capture same colored piece {square_object.ID}'
 
