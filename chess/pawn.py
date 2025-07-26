@@ -8,7 +8,7 @@ class Pawn(Board):
         self.OID = OID
         self.ID = f'{self.name}_{self.color}_{self.OID}'
 
-        self.position = self.get_pawn_position(self.color, self.OID)
+        self.position = None
 
     def get_id(self):
         return self.ID

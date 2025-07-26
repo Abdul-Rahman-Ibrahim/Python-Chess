@@ -9,13 +9,11 @@ class Board:
         self.right_end = [f'h{rank}' for rank in self.ranks]
         self.left_end = [f'a{rank}' for rank in self.ranks]
 
+        self.pieces = []
         self.squares = {}
         for file in self.files:
             for rank in self.ranks:
                 self.squares[f'{file}{rank}'] = None
-
-        self.edges = self.top_end + self.bottom_end + self.right_end + self.left_end
-        self.set_up_pieces()
     
     def move(self, Piece: type, file: str, rank: int):
         current_file, current_rank = self.get_current_position(Piece)
@@ -33,102 +31,10 @@ class Board:
     
     def update_position(self, Piece: type, file: str, rank: int, current_file: str, current_rank: int):
         Piece.position = f'{file}{rank}'
-        color = Piece.color
-        name = Piece.name
-        OID = None
-        try:
-            OID = Piece.OID
-        except:
-            pass
-
-        self.squares[f'{file}{rank}'] = Piece.ID
+        self.squares[f'{file}{rank}'] = Piece
         self.squares[f'{current_file}{current_rank}'] = None
-
-        if name == 'P':
-            if color == 1:
-                if OID == 1:
-                    self.pawn11_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.pawn12_pos = f'{file}{rank}'
-                elif OID == 3:
-                    self.pawn13_pos = f'{file}{rank}'
-                elif OID == 4:
-                    self.pawn14_pos = f'{file}{rank}'
-                elif OID == 5:
-                    self.pawn15_pos = f'{file}{rank}'    
-                elif OID == 6:
-                    self.pawn16_pos = f'{file}{rank}'
-                elif OID == 7:
-                    self.pawn17_pos = f'{file}{rank}'
-                elif OID == 8:
-                    self.pawn18_pos = f'{file}{rank}'
-            else:
-                if OID == 1:
-                    self.pawn21_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.pawn22_pos = f'{file}{rank}'
-                elif OID == 3:
-                    self.pawn23_pos = f'{file}{rank}'
-                elif OID == 4:
-                    self.pawn24_pos = f'{file}{rank}'
-                elif OID == 5:
-                    self.pawn25_pos = f'{file}{rank}'    
-                elif OID == 6:
-                    self.pawn26_pos = f'{file}{rank}'
-                elif OID == 7:
-                    self.pawn27_pos = f'{file}{rank}'
-                elif OID == 8:
-                    self.pawn28_pos = f'{file}{rank}'
-
-        elif name == 'B':
-            if color == 1:
-                if OID == 1:
-                    self.bishop11_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.bishop12_pos = f'{file}{rank}'
-            else:
-                if OID == 1:
-                    self.bishop21_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.bishop22_pos = f'{file}{rank}'
-
-        elif name == 'N':
-            if color == 1:
-                if OID ==  1:
-                    self.knight11_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.knight12_pos = f'{file}{rank}'
-            else:
-                if OID ==  1:
-                    self.knight21_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.knight22_pos = f'{file}{rank}'
-
-        elif name == 'R':
-            if color == 1:
-                if OID == 1:
-                    self.rook11_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.rook12_pos = f'{file}{rank}'
-            else:
-                if OID == 1:
-                    self.rook21_pos = f'{file}{rank}'
-                elif OID == 2:
-                    self.rook22_pos = f'{file}{rank}'
-
-        elif name == 'Q':
-            if color == 1:
-                self.queen1_pos = f'{file}{rank}'
-            else:
-                self.queen2_pos = f'{file}{rank}'
-
-        elif name == 'K':
-            if color == 1:
-                self.king1_pos = f'{file}{rank}'
-            else:
-                self.king2_pos = f'{file}{rank}'         
+  
                                        
-    
     def get_file_rank(self, position: str):
         file = position[0]
         rank = int(position[1])
@@ -142,187 +48,131 @@ class Board:
     
     def is_move_in_scope(self, scope: list, file: str, rank: int):
         return f'{file}{rank}' in scope
-    
-    def is_square_empty(self, file: str, rank: int):
-        if not self.squares[f'{file}{rank}']:
-            return True
-        return False
 
     def get_square_info(self, file:str, rank: int):
         return self.squares[f'{file}{rank}']
     
+    def set_up_piece(self, Piece: type):
+        if Piece.name == 'K':
+            if Piece.color == 1:
+                self.squares['e1'] = Piece
+                Piece.position = 'e1'
+            else:
+                self.squares['e8'] = Piece
+                Piece.position = 'e8'
 
-    def remove_pieces(self):
-        self.squares = {}
-        for file in self.files:
-            for rank in self.ranks:
-                self.squares[f'{file}{rank}'] = None
+        elif Piece.name == 'Q':
+            if Piece.color == 1:
+                self.squares['d1'] = Piece
+                Piece.position = 'd1'
+            else:
+                self.squares['d8'] = Piece
+                Piece.position = 'd8'
 
-    def update_square(self, ID: str, square):
-        self.squares[square] = ID
+        elif Piece.name == 'R':
+            if Piece.color == 1:
+                if Piece.OID == 1:
+                    self.squares['h1'] = Piece
+                    Piece.position = 'h1'
+                else:
+                    self.squares['a1'] = Piece
+                    Piece.position = 'a1'
+            else:
+                if Piece.OID == 1:
+                    self.squares['a8'] = Piece
+                    Piece.position = 'a8'
+                else:
+                    self.squares['h8'] = Piece
+                    Piece.position = 'h8'
+
+        elif Piece.name == 'B':
+            if Piece.color == 1:
+                if Piece.OID == 1:
+                    self.squares['f1'] = Piece
+                    Piece.position = 'f1'
+                else:
+                    self.squares['c1'] = Piece
+                    Piece.position = 'c1'
+            else:
+                if Piece.OID == 1:
+                    self.squares['c8'] = Piece
+                    Piece.position = 'c8'
+                else:
+                    self.squares['f8'] = Piece
+                    Piece.position = 'f8'
+
+        elif Piece.name == 'N':
+            if Piece.color == 1:
+                if Piece.OID == 1:
+                    self.squares['b1'] = Piece
+                    Piece.position = 'b1'
+                else:
+                    self.squares['g1'] = Piece
+                    Piece.position = 'g1'
+            else:
+                if Piece.OID == 1:
+                    self.squares['g8'] = Piece
+                    Piece.position = 'g8'
+                else:
+                    self.squares['b8'] = Piece
+                    Piece.position = 'b8'
+
+        elif Piece.name == 'P':
+            if Piece.color == 1:
+                if Piece.OID == 1:
+                    self.squares['a2'] = Piece
+                    Piece.position = 'a2'
+                elif Piece.OID == 2:
+                    self.squares['b2'] = Piece
+                    Piece.position = 'b2'
+                elif Piece.OID == 3:
+                    self.squares['c2'] = Piece
+                    Piece.position = 'c2'
+                elif Piece.OID == 4:
+                    self.squares['d2'] = Piece
+                    Piece.position = 'd2'
+                elif Piece.OID == 5:
+                    self.squares['e2'] = Piece
+                    Piece.position = 'e2'
+                elif Piece.OID == 6:
+                    self.squares['f2'] = Piece
+                    Piece.position = 'f2'
+                elif Piece.OID == 7:
+                    self.squares['g2'] = Piece
+                    Piece.position = 'g2'
+                else:
+                    self.squares['h2'] = Piece
+                    Piece.position = 'h2'
+            else:
+                if Piece.OID == 1:
+                    self.squares['a7'] = Piece
+                    Piece.position = 'a7'
+                elif Piece.OID == 2:
+                    self.squares['b7'] = Piece
+                    Piece.position = 'b7'
+                elif Piece.OID == 3:
+                    self.squares['c7'] = Piece
+                    Piece.position = 'c7'
+                elif Piece.OID == 4:
+                    self.squares['d7'] = Piece
+                    Piece.position = 'd7'
+                elif Piece.OID == 5:
+                    self.squares['e7'] = Piece
+                    Piece.position = 'e7'
+                elif Piece.OID == 6:
+                    self.squares['f7'] = Piece
+                    Piece.position = 'f7'
+                elif Piece.OID == 7:
+                    self.squares['g7'] = Piece
+                    Piece.position = 'g7'
+                else:
+                    self.squares['h7'] = Piece
+                    Piece.position = 'h7'
+
+        self.pieces.append(Piece)
+        print(f'{Piece.ID} is set up')
+
     
-    def set_up_pieces(self):
-        self.queen1_pos = 'd1'
-        self.queen2_pos = 'd8'
-        self.squares['d1'] = 'Q_1'
-        self.squares['d8'] = 'Q_2'
-
-        self.bishop11_pos = 'f1'
-        self.bishop12_pos = 'c1'
-        self.bishop21_pos = 'c8'
-        self.bishop22_pos = 'f8'
-        self.squares['f1'] = 'B_1_1'
-        self.squares['c1'] = 'B_1_2'
-        self.squares['c8'] = 'B_2_1'
-        self.squares['f8'] = 'B_2_2'
-
-        # Rooks
-        self.rook11_pos = 'a1'
-        self.rook12_pos = 'h1'
-        self.rook21_pos = 'a8'
-        self.rook22_pos = 'h8'
-        self.squares['a1'] = 'R_1_1'
-        self.squares['h1'] = 'R_1_2'
-        self.squares['a8'] = 'R_2_1'
-        self.squares['h8'] = 'R_2_2'
-
-        # Kings
-        self.king1_pos = 'e1'
-        self.king2_pos = 'e8'
-        self.squares['e1'] = 'K_1'
-        self.squares['e8'] = 'K_2'
-
-        # Knights
-        self.knight11_pos = 'b1'
-        self.knight12_pos = 'g1'
-        self.knight21_pos = 'g8'
-        self.knight22_pos = 'b8'
-        self.squares['b1'] = 'N_1_1'
-        self.squares['g1'] = 'N_1_2'
-        self.squares['g8'] = 'N_2_1'
-        self.squares['b8'] = 'N_2_2'
-
-        # White Pawns
-        self.pawn11_pos = 'a2'
-        self.pawn12_pos = 'b2'
-        self.pawn13_pos = 'c2'
-        self.pawn14_pos = 'd2'
-        self.pawn15_pos = 'e2'
-        self.pawn16_pos = 'f2'
-        self.pawn17_pos = 'g2'
-        self.pawn18_pos = 'h2'
-        self.squares['a2'] = 'P_1_1'
-        self.squares['b2'] = 'P_1_2'
-        self.squares['c2'] = 'P_1_3'
-        self.squares['d2'] = 'P_1_4'
-        self.squares['e2'] = 'P_1_5'
-        self.squares['f2'] = 'P_1_6'
-        self.squares['g2'] = 'P_1_7'
-        self.squares['h2'] = 'P_1_8'
-
-        # Black Pawns
-        self.pawn21_pos = 'a7'
-        self.pawn22_pos = 'b7'
-        self.pawn23_pos = 'c7'
-        self.pawn24_pos = 'd7'
-        self.pawn25_pos = 'e7'
-        self.pawn26_pos = 'f7'
-        self.pawn27_pos = 'g7'
-        self.pawn28_pos = 'h7'
-        self.squares['a7'] = 'P_2_1'
-        self.squares['b7'] = 'P_2_2'
-        self.squares['c7'] = 'P_2_3'
-        self.squares['d7'] = 'P_2_4'
-        self.squares['e7'] = 'P_2_5'
-        self.squares['f7'] = 'P_2_6'
-        self.squares['g7'] = 'P_2_7'
-        self.squares['h7'] = 'P_2_8'
-
-
-    def is_square_empty(self, file:str, rank: int):
-        pass
-    
-    def get_queen_position(self, color: int):
-        if color == 1:
-            return self.queen1_pos
-        return self.queen2_pos
-
-    def get_king_position(self, color: int):
-        if color == 1:
-            return self.king1_pos
-        return self.king2_pos
-
-    def get_rook_position(self, color: int, OID: int):
-        if color == 1:
-            if OID == 1:
-                return self.rook11_pos
-            return self.rook12_pos
-        
-        if OID == 1:
-            return self.rook21_pos
-        return self.rook22_pos
-
-    def get_bishop_position(self, color: int, OID: int):
-        if color == 1:
-            if OID == 1:
-                return self.bishop11_pos
-            return self.bishop12_pos
-        
-        if OID == 1:
-            return self.bishop21_pos
-        return self.bishop22_pos
-        
-
-    def get_knight_position(self, color: int, OID: int):
-        if color == 1:
-            if OID == 1:
-                return self.knight11_pos
-            return self.knight12_pos
-        
-        if OID == 1:
-            return self.knight21_pos
-        return self.knight22_pos
-    
-    def get_pawn_position(self, color: int, OID: int):
-        if color == 1:
-            if OID == 1:
-                return self.pawn11_pos
-            elif OID == 2:
-                return self.pawn12_pos
-            elif OID == 3:
-                return self.pawn13_pos
-            elif OID == 4:
-                return self.pawn14_pos
-            elif OID == 5:
-                return self.pawn15_pos       
-            elif OID == 6:
-                return self.pawn16_pos
-            elif OID == 7:
-                return self.pawn17_pos
-            elif OID == 8:
-                return self.pawn18_pos
-
-        if OID == 1:
-            return self.pawn21_pos
-        elif OID == 2:
-            return self.pawn22_pos
-        elif OID == 3:
-            return self.pawn23_pos
-        elif OID == 4:
-            return self.pawn24_pos
-        elif OID == 5:
-            return self.pawn25_pos       
-        elif OID == 6:
-            return self.pawn26_pos
-        elif OID == 7:
-            return self.pawn27_pos
-        elif OID == 8:
-            return self.pawn28_pos
-            
-
-    def is_on_edge(self, file: str, rank: int):
-        return f'{file}{rank}' in self.edges
-
     def is_on_top_end(self, file: str, rank: int):
         return f'{file}{rank}' in self.top_end
     
@@ -334,6 +184,3 @@ class Board:
 
     def is_on_left_end(self, file: str, rank: int):
         return f'{file}{rank}' in self.left_end
-    
-
-        

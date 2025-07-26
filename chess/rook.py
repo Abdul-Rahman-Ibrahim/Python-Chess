@@ -8,8 +8,7 @@ class Rook(Board):
         self.OID = OID
         self.ID = f'{self.name}_{self.color}_{self.OID}'
 
-        self.position = self.get_rook_position(self.color, self.OID)
-
+        self.position = None
     def get_id(self):
         return self.ID
 

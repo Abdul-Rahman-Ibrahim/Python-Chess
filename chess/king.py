@@ -8,7 +8,7 @@ class King(Board):
         self.color = color
         self.ID = f'{self.name}_{self.color}'
 
-        self.position = self.get_king_position(self.color)
+        self.position = None
 
     def get_id(self):
         return self.ID
