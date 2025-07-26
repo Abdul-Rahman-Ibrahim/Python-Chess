@@ -21,8 +21,108 @@ class Board:
         current_file, current_rank = self.get_current_position(Piece)
         scope = Piece.get_scopes(current_file, current_rank)
         if self.is_move_in_scope(scope, file, rank):
+            #check if opponent piece not present
+            self.update_position(Piece, file, rank, current_file, current_rank)
             return 'Move may be possible', scope
         return 'Move is not possible', scope
+    
+    def update_position(self, Piece: type, file: str, rank: int, current_file: str, current_rank: int):
+        Piece.position = f'{file}{rank}'
+        color = Piece.color
+        name = Piece.name
+        OID = None
+        try:
+            OID = Piece.OID
+        except:
+            pass
+
+        self.squares[f'{file}{rank}'] = Piece.ID
+        self.squares[f'{current_file}{current_rank}'] = None
+
+        if name == 'P':
+            if color == 1:
+                if OID == 1:
+                    self.pawn11_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.pawn12_pos = f'{file}{rank}'
+                elif OID == 3:
+                    self.pawn13_pos = f'{file}{rank}'
+                elif OID == 4:
+                    self.pawn14_pos = f'{file}{rank}'
+                elif OID == 5:
+                    self.pawn15_pos = f'{file}{rank}'    
+                elif OID == 6:
+                    self.pawn16_pos = f'{file}{rank}'
+                elif OID == 7:
+                    self.pawn17_pos = f'{file}{rank}'
+                elif OID == 8:
+                    self.pawn18_pos = f'{file}{rank}'
+            else:
+                if OID == 1:
+                    self.pawn21_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.pawn22_pos = f'{file}{rank}'
+                elif OID == 3:
+                    self.pawn23_pos = f'{file}{rank}'
+                elif OID == 4:
+                    self.pawn24_pos = f'{file}{rank}'
+                elif OID == 5:
+                    self.pawn25_pos = f'{file}{rank}'    
+                elif OID == 6:
+                    self.pawn26_pos = f'{file}{rank}'
+                elif OID == 7:
+                    self.pawn27_pos = f'{file}{rank}'
+                elif OID == 8:
+                    self.pawn28_pos = f'{file}{rank}'
+
+        elif name == 'B':
+            if color == 1:
+                if OID == 1:
+                    self.bishop11_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.bishop12_pos = f'{file}{rank}'
+            else:
+                if OID == 1:
+                    self.bishop21_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.bishop22_pos = f'{file}{rank}'
+
+        elif name == 'N':
+            if color == 1:
+                if OID ==  1:
+                    self.knight11_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.knight12_pos = f'{file}{rank}'
+            else:
+                if OID ==  1:
+                    self.knight21_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.knight22_pos = f'{file}{rank}'
+
+        elif name == 'R':
+            if color == 1:
+                if OID == 1:
+                    self.rook11_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.rook12_pos = f'{file}{rank}'
+            else:
+                if OID == 1:
+                    self.rook21_pos = f'{file}{rank}'
+                elif OID == 2:
+                    self.rook22_pos = f'{file}{rank}'
+
+        elif name == 'Q':
+            if color == 1:
+                self.queen1_pos = f'{file}{rank}'
+            else:
+                self.queen2_pos = f'{file}{rank}'
+
+        elif name == 'K':
+            if color == 1:
+                self.king1_pos = f'{file}{rank}'
+            else:
+                self.king2_pos = f'{file}{rank}'         
+                                       
     
     def get_file_rank(self, position: str):
         file = position[0]
@@ -34,12 +134,6 @@ class Board:
         if square:
             return self.get_file_rank(square)
         return None, None
-        # id = Piece.ID
-        
-        # for square, piece_id in self.squares.items():
-        #     if id == piece_id:
-        #         return self.get_file_rank(square)
-        # return None, None
     
     def is_move_in_scope(self, scope: list, file: str, rank: int):
         return f'{file}{rank}' in scope

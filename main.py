@@ -18,4 +18,7 @@ file, rank = board.get_current_position(piece)
 print(piece.ID)
 print(f'{file}{rank}')
 print(board.move(piece, 'f', 6))
+print(piece.position)
+print(board.squares['f7'])
+print(board.pawn26_pos)
 
