@@ -19,12 +19,18 @@ class Board:
         current_file, current_rank = self.get_current_position(Piece)
         scope = Piece.get_scopes(current_file, current_rank)
         if self.is_move_in_scope(scope, file, rank):
-            #check if another piece is on the square
-            square_status = self.get_square_info(file, rank)
-            if not square_status:
+
+            square_object = self.get_square_info(file, rank)
+            if not square_object: #check whether no piece is on the square to move
                 self.update_position(Piece, file, rank, current_file, current_rank)
-                return True, square_status
-            return False, square_status
+                return True, square_object
+            
+            #check which piece is on the square to move
+            if square_object.color != Piece.color:
+                self.update_position(Piece, file, rank, current_file, current_rank)
+                return True, f'Can capture {square_object.ID}'
+            
+            return False, f'Cannot capture same colored piece {square_object.ID}'
 
         return False, 'Not scope'
 
@@ -33,7 +39,6 @@ class Board:
         Piece.position = f'{file}{rank}'
         self.squares[f'{file}{rank}'] = Piece
         self.squares[f'{current_file}{current_rank}'] = None
-  
                                        
     def get_file_rank(self, position: str):
         file = position[0]
