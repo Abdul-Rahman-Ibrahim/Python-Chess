@@ -136,7 +136,8 @@ print('------------------------------------------------\n')
 
 def make_a_move(board, piece, f, r):
     id = piece.ID
-    print(f'{id} current position is {board.get_current_position(piece)}')
+    file, rank = board.get_current_position(piece)
+    print(f'{id} current position is {file}{rank}')
     print(f'{id} moving to {f}{r}')
     success, msg = board.move(piece, f, r)
     if success:
@@ -146,6 +147,7 @@ def make_a_move(board, piece, f, r):
     print(f'{id} moving to {f}{r} is {success} because {msg}')
     print(f'{id} new position is {board.get_current_position(piece)}')
     print(f'Status of {f}{r} is {board.get_square_info(f, r)}')
+    print(f'Status of {file}{rank} is {board.get_square_info(file, rank)}')
     print('------------------------------------------------\n')
 
 
@@ -162,6 +164,6 @@ make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 4)
 
-make_a_move(board, king_2, 'e', 7)
+make_a_move(board, knight_1_2, 'h', 3)
 
 
