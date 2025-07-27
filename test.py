@@ -135,6 +135,7 @@ board.set_up_piece(pawn_2_8)
 print('------------------------------------------------\n')
 
 def make_a_move(board, piece, f, r):
+    
     id = piece.ID
     file, rank = board.get_current_position(piece)
     print(f'{id} current position is {file}{rank}')
@@ -164,11 +165,16 @@ def make_a_move(board, piece, f, r):
 # make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 4)
 
-# make_a_move(board, pawn_2_3, 'c', 6)
-make_a_move(board, pawn_2_3, 'c', 6)
-make_a_move(board, queen_2, 'b', 6)
 
 make_a_move(board, pawn_1_5, 'e', 4)
-make_a_move(board, king_1, 'e', 2)
+make_a_move(board, pawn_2_5, 'e', 6)
+make_a_move(board, queen_1, 'f', 3)
+make_a_move(board, pawn_2_5, 'e', 7)
+make_a_move(board, pawn_2_5, 'e', 5)
+
+
+make_a_move(board, queen_1, 'f', 7)
+make_a_move(board, queen_1, 'f', 7)
+# make_a_move(board, pawn_2_5, 'e', 6)
 
 

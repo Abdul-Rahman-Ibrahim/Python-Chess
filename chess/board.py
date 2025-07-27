@@ -13,29 +13,67 @@ class Board:
         for file in self.files:
             for rank in self.ranks:
                 self.squares[f'{file}{rank}'] = None
+        
+        self.white_to_move = True
     
     def move(self, Piece: type, file: str, rank: int):
-        current_file, current_rank = self.get_current_position(Piece)
-        scope = Piece.get_scopes(current_file, current_rank)
-        if self.is_move_in_scope(scope, file, rank):
-            dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank)
-            print(dir, scope_dir, f'{file}{rank}')
-            for pos in scope_dir:
-                pos_object = self.get_square_info(pos[0], int(pos[1]))
+        if self.is_piece_turn(Piece):
+            current_file, current_rank = self.get_current_position(Piece)
+            scope = Piece.get_scopes(current_file, current_rank)
+            if self.is_move_in_scope(scope, file, rank):
+                dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank)
+                print(dir, scope_dir, f'{file}{rank}')
+                for pos in scope_dir:
+                    tmp_file, tmp_rank = self.get_file_rank(pos)
+                    if (tmp_file, tmp_rank) == (file, rank):
+                        break
+                    pos_object = self.get_square_info(tmp_file, tmp_rank)
+                    if not pos_object:
+                        continue
+
+                    if pos != f'{file}{rank}':
+                        self.reset_white_to_move(Piece)
+                        return False, f'Can not jump over opponent piece {pos_object.ID}'
+
+                    if pos_object.color == Piece.color:
+                        self.reset_white_to_move(Piece)
+                        return False, f'Can not jump over own piece {pos_object.ID}'
+
+                
+                pos_object = self.get_square_info(file, rank)
                 if not pos_object:
-                    continue
-
-                if pos_object.color == Piece.color:
-                    return False, f'Can not jump over own piece {pos_object.ID}'
-                
-                if pos != f'{file}{rank}':
-                    return False, f'Can not jump over opponent piece {pos_object.ID}'
+                    self.update_position(Piece, file, rank, current_file, current_rank)
+                    return True, pos_object
+                self.update_position(Piece, file, rank, current_file, current_rank)
+                return True, f'Can capture opponent piece {pos_object.ID}'
             
-            self.update_position(Piece, file, rank, current_file, current_rank)
-            return True, pos_object
-                
-        return False, 'Not scope' 
-
+            self.white_to_move = self.reset_white_to_move(Piece)
+            return False, 'Not scope'
+        
+        return False, f'Not {Piece.color}\'s turn'
+    
+    def reset_white_to_move(self, Piece: type):
+        if Piece.color == 1:
+            self.white_to_move = True
+        elif Piece.color == 2:
+            self.white_to_move = False
+    
+    def is_piece_turn(self, Piece: type):
+        print(Piece.color)
+        if self.white_to_move:
+            print('White to move')
+            if Piece.color == 1:
+                self.white_to_move = False
+                return True
+            return False
+        
+        
+        if Piece.color == 2:
+            print('Black to move')
+            self.white_to_move = True
+            return True
+        
+        return False
     
     def update_position(self, Piece: type, file: str, rank: int, current_file: str, current_rank: int):
         Piece.position = f'{file}{rank}'

@@ -98,22 +98,6 @@ class Queen(Board):
             except IndexError:
                 break
         return scopes
-
-    # def get_horizontal_scope(self, file: str, rank: int):
-    #     scopes = []
-    #     for rnk in self.ranks:
-    #         if rnk == rank:
-    #             continue
-    #         scopes.append(f'{file}{rnk}')
-    #     return scopes
-    
-    # def get_vertical_scope(self, file: str, rank: int):
-    #     scopes = []
-    #     for fl in self.files:
-    #         if fl == file:
-    #             continue
-    #         scopes.append(f'{fl}{rank}')
-    #     return scopes
     
     def get_top_left_scope(self, file: str, rank: int):
         if f'{file}{rank}' in self.top_end or f'{file}{rank}' in self.left_end:
