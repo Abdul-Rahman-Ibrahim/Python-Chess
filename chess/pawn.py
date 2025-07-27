@@ -17,8 +17,8 @@ class Pawn(Board):
 
     def get_direction(self, file:str, rank:int, next_file:str, next_rank:int):
         if self.color == 1:
-            return 'TV'
-        return 'BV'
+            return 'TV', self.get_scopes(file, rank)
+        return 'BV', self.get_scopes(file, rank)
 
     def get_scopes(self, file: str, rank: int, can_capture=False, en_pessant=False):
         scopes = []

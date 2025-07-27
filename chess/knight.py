@@ -17,24 +17,24 @@ class Knight(Board):
     def get_direction(self, file:str, rank:int, next_file:str, next_rank:int):
 
         if f'{next_file}{next_rank}' in self.get_top_right_scope(file, rank, file_skip=2, rank_skip=1):
-            return 'TR'
+            return 'TR', self.get_top_right_scope(file, rank, file_skip=2, rank_skip=1)
         elif f'{next_file}{next_rank}' in self.get_top_right_scope(file, rank, file_skip=1, rank_skip=2):
-            return 'TR'
+            return 'TR', self.get_top_right_scope(file, rank, file_skip=1, rank_skip=2)
         
         elif f'{next_file}{next_rank}' in self.get_top_left_scope(file, rank, file_skip=1, rank_skip=2):
-            return 'TL'
+            return 'TL', self.get_top_left_scope(file, rank, file_skip=1, rank_skip=2)
         elif f'{next_file}{next_rank}' in self.get_top_left_scope(file, rank, file_skip=2, rank_skip=1):
-            return 'TL'
+            return 'TL', self.get_top_left_scope(file, rank, file_skip=2, rank_skip=1)
         
         elif f'{next_file}{next_rank}' in self.get_bottom_right_scope(file, rank, file_skip=1, rank_skip=2):
-            return 'BR'
+            return 'BR', self.get_bottom_right_scope(file, rank, file_skip=1, rank_skip=2)
         elif f'{next_file}{next_rank}' in self.get_bottom_right_scope(file, rank, file_skip=2, rank_skip=1):
-            return 'BR'
+            return 'BR', self.get_bottom_right_scope(file, rank, file_skip=2, rank_skip=1)
         
         elif f'{next_file}{next_rank}' in self.get_bottom_left_scope(file, rank, file_skip=1, rank_skip=2):
-            return 'BL'
+            return 'BL', self.get_bottom_left_scope(file, rank, file_skip=1, rank_skip=2)
         elif f'{next_file}{next_rank}' in self.get_bottom_left_scope(file, rank, file_skip=2, rank_skip=1):
-            return 'BL'     
+            return 'BL', self.get_bottom_left_scope(file, rank, file_skip=2, rank_skip=1)
 
     def get_top_right_scope(self, file: str, rank: int, file_skip: int, rank_skip: int):
         scopes = []

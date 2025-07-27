@@ -15,13 +15,16 @@ class Rook(Board):
     def get_direction(self, file:str, rank:int, next_file:str, next_rank:int):
         
         if f'{next_file}{next_rank}' in self.get_right_horizontal_scope(file, rank):
-            return 'RH'
+            return 'RH', self.get_right_horizontal_scope(file, rank)
+        
         elif f'{next_file}{next_rank}' in self.get_left_horizontal_scope(file, rank):
-            return 'LH'
+            return 'LH', self.get_left_horizontal_scope(file, rank)
+        
         elif f'{next_file}{next_rank}' in self.get_top_vertical_scope(file, rank):
-            return 'TV'
+            return 'TV', self.get_top_vertical_scope(file, rank)
+        
         elif f'{next_file}{next_rank}' in self.get_bottom_vertical_scope(file, rank):
-            return 'BV'
+            return 'BV', self.get_bottom_vertical_scope(file, rank)
 
     def get_right_horizontal_scope(self, file: str, rank: int):
         if f'{file}{rank}' in self.right_end:

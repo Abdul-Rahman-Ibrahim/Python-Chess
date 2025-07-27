@@ -160,10 +160,15 @@ def make_a_move(board, piece, f, r):
 
 
 # Play
-make_a_move(board, pawn_2_5, 'e', 6)
+# make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 6)
 # make_a_move(board, pawn_2_5, 'e', 4)
 
-make_a_move(board, knight_1_2, 'h', 3)
+# make_a_move(board, pawn_2_3, 'c', 6)
+make_a_move(board, pawn_2_3, 'c', 6)
+make_a_move(board, queen_2, 'b', 6)
+
+make_a_move(board, pawn_1_5, 'e', 4)
+make_a_move(board, king_1, 'e', 2)
 
 

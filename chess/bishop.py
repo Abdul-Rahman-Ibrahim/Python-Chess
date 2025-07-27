@@ -16,13 +16,16 @@ class Bishop(Board):
     def get_direction(self, file:str, rank:int, next_file:str, next_rank:int):
         
         if f'{next_file}{next_rank}' in self.get_top_right_scope(file, rank):
-            return 'TR'
+            return 'TR', self.get_top_right_scope(file, rank)
+        
         elif f'{next_file}{next_rank}' in self.get_top_left_scope(file, rank):
-            return 'TL'
+            return 'TL', self.get_top_left_scope(file, rank)
+        
         elif f'{next_file}{next_rank}' in self.get_bottom_right_scope(file, rank):
-            return 'BR'
+            return 'BR', self.get_bottom_right_scope(file, rank)
+        
         elif f'{next_file}{next_rank}' in self.get_bottom_left_scope(file, rank):
-            return 'BL'
+            return 'BL', self.get_bottom_left_scope(file, rank)
 
     def get_top_right_scope(self, file: str, rank: int):
         if f'{file}{rank}' in self.top_end or f'{file}{rank}' in self.right_end:
