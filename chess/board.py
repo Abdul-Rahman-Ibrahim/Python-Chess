@@ -29,8 +29,9 @@ class Board:
             tmp_file, tmp_rank = self.get_file_rank(pos)
             pos_object = self.get_square_info(tmp_file, tmp_rank)
             if pos_object:
-                if Piece.name != 'N':
-                    break
+                if pos_object.color == Piece.color:
+                    if Piece.name != 'N':
+                        break
             if Piece.name == 'N':
                 if pos_object:
                     continue
