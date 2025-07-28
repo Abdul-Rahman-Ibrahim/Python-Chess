@@ -16,7 +16,27 @@ class Board:
         
         self.white_to_move = True
         
-    
+    def get_legal_moves(self, Piece: type):
+        position = Piece.position
+        file, rank = self.get_file_rank(position)
+        if Piece.name == 'P':
+            scope = Piece.get_scopes(file, rank, self.squares)
+        else:
+            scope = Piece.get_scopes(file, rank)
+        
+        legal_moves = []
+        for pos in scope:
+            tmp_file, tmp_rank = self.get_file_rank(pos)
+            pos_object = self.get_square_info(tmp_file, tmp_rank)
+            if pos_object:
+                if Piece.name != 'N':
+                    break
+            if Piece.name == 'N':
+                if pos_object:
+                    continue
+            legal_moves.append(pos)
+        return legal_moves
+
     def move(self, Piece: type, file: str, rank: int):
         if self.is_piece_turn(Piece):
             current_file, current_rank = self.get_current_position(Piece)
@@ -30,6 +50,7 @@ class Board:
                     dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank, self.squares)
                 else:
                     dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank)
+                
                 for pos in scope_dir:
                     tmp_file, tmp_rank = self.get_file_rank(pos)
                     if (tmp_file, tmp_rank) == (file, rank): # target square

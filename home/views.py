@@ -130,9 +130,6 @@ class LegalMoveValidationView(View):
         
         print(f'Valid move because {msg}')
 
-        print('---------------')
-        print(board.get_square_info('e', 4))
-        print(board.get_square_info('f', 5))
         return JsonResponse({'move_valid': True})
 
 class ResetView(View):
@@ -147,5 +144,18 @@ class ResetView(View):
 
         set_up()
         return redirect('home')
+
+
+class GetLegalMoveView(View):
+    def get(self, request):
+        square = request.GET.get('square')
+        if not square:
+            return JsonResponse([], safe=False)
+
+        pos_obj = board.squares[square]
+        if pos_obj:
+            legal_moves = board.get_legal_moves(pos_obj)
+            return JsonResponse(legal_moves, safe=False)
+        return JsonResponse([], safe=False)
 
         
