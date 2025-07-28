@@ -20,52 +20,66 @@ class Board:
     def move(self, Piece: type, file: str, rank: int):
         if self.is_piece_turn(Piece):
             current_file, current_rank = self.get_current_position(Piece)
-            scope = Piece.get_scopes(current_file, current_rank)
             if Piece.name == 'P':
-                # check if can move up
-                capture_scope = Piece.get_capture_scope(current_file, current_rank, self.squares)
-                scope = scope + capture_scope
+                scope = Piece.get_scopes(current_file, current_rank, self.squares)
+            else:
+                scope = Piece.get_scopes(current_file, current_rank)
 
             if self.is_move_in_scope(scope, file, rank):
-                dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank)
+                if Piece.name == 'P':
+                    dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank, self.squares)
+                else:
+                    dir, scope_dir = Piece.get_direction(current_file, current_rank, file, rank)
                 for pos in scope_dir:
                     tmp_file, tmp_rank = self.get_file_rank(pos)
-                    if (tmp_file, tmp_rank) == (file, rank):
+                    if (tmp_file, tmp_rank) == (file, rank): # target square
+                        print(f'Breaking Loop on {tmp_file}{tmp_rank}', f'{scope_dir} Source -> {current_file}{current_rank} Target -> {file}{rank}')
                         break
                     pos_object = self.get_square_info(tmp_file, tmp_rank)
                     if not pos_object:
+                        print(f'Continuing Loop on {tmp_file}{tmp_rank}', f'{scope_dir} Source -> {current_file}{current_rank} Target -> {file}{rank}')
                         continue
-
+                    
                     if pos != f'{file}{rank}':
+                        if Piece.name == 'P':
+                            Piece.has_moved = True
+                            self.white_to_move = not self.white_to_move
+                            self.update_position(Piece, file, rank, current_file, current_rank)
+                            print(f'Returning Loop on Pawnnn {tmp_file}{tmp_rank}', f'{scope_dir} Source -> {current_file}{current_rank} Target -> {file}{rank}')
+                            return True, f'Can capture opponent piece {pos_object.ID} {pos_object.color}'
+                        
+                        print(f'Returning Loop on {tmp_file}{tmp_rank}', f'{scope_dir} Source -> {current_file}{current_rank} Target -> {file}{rank}')
                         return False, f'Can not jump over opponent piece {pos_object.ID} {pos_object.color}'
 
+
                     if pos_object.color == Piece.color:
+                        print(f'Returning Loop on {tmp_file}{tmp_rank}', f'{scope_dir} Source -> {current_file}{current_rank} Target -> {file}{rank}')
                         return False, f'Can not jump over own piece {pos_object.ID} {pos_object.color}'
 
                 
                 pos_object = self.get_square_info(file, rank)
+                # no piece on the target square
                 if not pos_object:
                     self.white_to_move = not self.white_to_move
                     self.update_position(Piece, file, rank, current_file, current_rank)
+                    if Piece.name == 'P':
+                        Piece.has_moved = True
                     return True, pos_object
                 
-                if Piece.name == 'P':
-                    if len(scope) > 1:
-                        if not Piece.can_capture:
-                            Piece.has_moved = False
-                    return False, f'Pawn can not capture {pos_object.ID} {pos_object.color} ahead'
-                
+                # there is a piece on the target square
                 if pos_object.color == Piece.color:
                     return False, f'Can not capture own piece {pos_object.ID} {pos_object.color}'
                 
+                # there is a piece on the target square but is for opponent
                 self.white_to_move = not self.white_to_move
                 self.update_position(Piece, file, rank, current_file, current_rank)
+                if Piece.name == 'P':
+                    Piece.has_moved = True
                 return True, f'Can capture opponent piece {pos_object.ID} {pos_object.color}'
             
             if Piece.name == 'P':
                 if len(scope) > 1:
-                    if not Piece.can_capture:
-                        Piece.has_moved = False
+                    Piece.has_moved = False
             return False, 'Not scope'
 
         return False, f'Not {Piece.color} turn'
